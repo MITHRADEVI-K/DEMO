@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deep Thought — Daily Cadence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar__brand">
+      <div class="brand-logo">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="var(--brand)" stroke-width="2"/>
+          <circle cx="12" cy="12" r="4" fill="var(--brand)"/>
+        </svg>
+      </div>
+      <span class="brand-name">DEEP THOUGHT</span>
+    </div>
+    <div class="sidebar__org">AAVAHANA</div>
+
+    <nav class="sidebar__nav">
+      <div class="nav-item">
+        <span class="nav-icon">⊞</span>
+        <span>Dashboard</span>
+      </div>
+
+      <div class="nav-group nav-group--active">
+        <div class="nav-group__header">
+          <span class="nav-icon">📅</span>
+          <span>Daily Cadence</span>
+          <span class="nav-chevron">▲</span>
+        </div>
+        <div class="nav-group__children">
+          <div class="nav-child" id="nav-daily-plan" data-target="plan">
+            <span class="nav-dot"></span>Daily Plan
+          </div>
+          <div class="nav-child" id="nav-daily-report" data-target="report">
+            <span class="nav-dot"></span>Daily Report
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-item">
+        <span class="nav-icon">📆</span>
+        <span>Weekly Cadence</span>
+        <span class="nav-chevron">▼</span>
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon">⟳</span>
+        <span>Event Loop</span>
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon">↗</span>
+        <span>Growth &amp; Performance</span>
+        <span class="nav-chevron">▼</span>
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon">👥</span>
+        <span>People &amp; IP</span>
+        <span class="nav-chevron">▼</span>
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon">△</span>
+        <span>HVT</span>
+        <span class="nav-chevron">▼</span>
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon">◎</span>
+        <span>Community Quiz</span>
+      </div>
+    </nav>
+
+    <div class="sidebar__user">
+      <div class="user-avatar">M</div>
+      <div class="user-info">
+        <div class="user-name">mithradevi-b55d</div>
+        <div class="user-email">mithradevi2305@gmail.com</div>
+        <div class="user-role">Member</div>
+      </div>
+    </div>
+    <div class="sidebar__logout">
+      <span>⎋</span> Logout
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar__greeting">
+        <h1 id="greeting-text">Good evening, mithradevi-b55d</h1>
+        <span class="topbar__org">AAVAHANA</span>
+      </div>
+      <div class="topbar__state-indicator" id="state-indicator"></div>
+    </header>
+
+    <!-- ───────────────────────────── DAILY PLAN ───────────────────────────── -->
+    <section class="module" id="module-plan">
+
+      <!-- STATE 1: Empty Plan -->
+      <div class="state" id="state-plan-empty">
+        <div class="state-card state-card--centered">
+          <div class="empty-illustration">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+              <rect x="8" y="12" width="48" height="42" rx="4" stroke="var(--brand)" stroke-width="2"/>
+              <line x1="18" y1="26" x2="46" y2="26" stroke="var(--brand)" stroke-width="2" stroke-linecap="round"/>
+              <line x1="18" y1="34" x2="38" y2="34" stroke="var(--muted-fg)" stroke-width="2" stroke-linecap="round" stroke-dasharray="4 3"/>
+              <line x1="18" y1="42" x2="30" y2="42" stroke="var(--muted-fg)" stroke-width="2" stroke-linecap="round" stroke-dasharray="4 3"/>
+              <circle cx="50" cy="14" r="7" fill="var(--brand)" />
+              <line x1="50" y1="11" x2="50" y2="17" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              <line x1="47" y1="14" x2="53" y2="14" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h2 class="state-title">Plan your day</h2>
+          <p class="state-subtitle">Add the deliverables you're committing to today. Mark the one that matters most.</p>
+          <button class="btn btn--primary" id="btn-start-plan">+ Add your first task</button>
+        </div>
+      </div>
+
+      <!-- STATE 2: Task Entry Form -->
+      <div class="state hidden" id="state-plan-entry">
+        <div class="state-card">
+          <div class="form-header">
+            <div class="tip-badge">✦ Tip</div>
+            <p class="tip-text">Be specific — a clear deliverable is easier to track and reflect on.</p>
+          </div>
+          <div class="task-list" id="plan-task-list"></div>
+          <div class="task-form" id="task-form">
+            <input class="task-input" id="task-input" placeholder="What will you deliver today?" autocomplete="off"/>
+            <div class="task-form__meta">
+              <div class="time-row">
+                <span class="meta-label">Estimated time</span>
+                <div class="time-chips" id="time-chips">
+                  <button class="time-chip" data-value="-1h">-1h</button>
+                  <button class="time-chip" data-value="-30m">-30m</button>
+                  <button class="time-chip time-chip--selected" data-value="1h">1h</button>
+                  <button class="time-chip" data-value="+30m">+30m</button>
+                  <button class="time-chip" data-value="+1h">+1h</button>
+                </div>
+                <span class="time-display" id="time-display">1h</span>
+              </div>
+              <div class="priority-row">
+                <span class="meta-label">Mark as top priority?</span>
+                <label class="toggle">
+                  <input type="checkbox" id="priority-toggle"/>
+                  <span class="toggle__track"><span class="toggle__thumb"></span></span>
+                </label>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn--primary" id="btn-add-task">Add</button>
+              <button class="btn btn--ghost" id="btn-cancel-task">Cancel</button>
+            </div>
+          </div>
+          <button class="btn btn--outline btn--sm" id="btn-add-another" style="display:none;">+ Add another task</button>
+          <div class="plan-submit-row" id="plan-submit-row" style="display:none;">
+            <button class="btn btn--primary btn--lg" id="btn-submit-plan">Submit Daily Plan →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATE 3: Filled Plan -->
+      <div class="state hidden" id="state-plan-filled">
+        <div class="state-card">
+          <div class="form-header">
+            <div class="tip-badge">✦ Tip</div>
+            <p class="tip-text">Star the one that matters most today.</p>
+          </div>
+          <div class="task-list" id="plan-filled-list"></div>
+          <div class="plan-filled-actions">
+            <button class="btn btn--outline btn--sm" id="btn-add-more">+ Add another task</button>
+            <button class="btn btn--primary btn--lg" id="btn-confirm-plan">Submit Daily Plan →</button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ───────────────────────────── DAILY REPORT ───────────────────────────── -->
+    <section class="module hidden" id="module-report">
+      <!-- Tab bar -->
+      <div class="report-tabs">
+        <button class="report-tab report-tab--active" data-tab="your-work">Your work</button>
+        <button class="report-tab" data-tab="unplanned">Unplanned</button>
+        <button class="report-tab" data-tab="challenged">What challenged you</button>
+        <div class="report-tab__progress-bar"><div class="report-tab__progress-fill" id="report-progress-fill"></div></div>
+      </div>
+
+      <!-- STATE 4: Your Work -->
+      <div class="report-pane" id="pane-your-work">
+        <div class="state-card">
+          <div class="pane-instruction">
+            <span class="pane-icon">✦</span>
+            Mark each deliverable. Set the status and actual time, then submit.
+          </div>
+          <div class="tip-line">Tip ✦ <em>Star the one that matters most today.</em></div>
+          <div class="deliverable-list" id="deliverable-list"></div>
+          <div class="pane-actions">
+            <button class="btn btn--primary btn--lg" id="btn-to-unplanned">Next →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATE 5: Unplanned Work -->
+      <div class="report-pane hidden" id="pane-unplanned">
+        <div class="state-card">
+          <div class="pane-instruction">
+            <span class="pane-icon">✦</span>
+            What did you do that wasn't on the plan?
+          </div>
+          <input class="task-input" id="unplanned-input" placeholder="What did you do that wasn't on the plan?" autocomplete="off"/>
+          <div class="chip-group" id="unplanned-chips">
+            <button class="chip" data-value="Something came up">Something came up</button>
+            <button class="chip" data-value="Spotted an opportunity">Spotted an opportunity</button>
+            <button class="chip" data-value="Today's blocker changed">Today's blocker changed</button>
+            <button class="chip" data-value="Helped a colleague">Helped a colleague</button>
+          </div>
+          <div class="time-row" style="margin-top:16px;">
+            <div class="time-chips" id="unplanned-time-chips">
+              <button class="time-chip" data-value="-1h">-1h</button>
+              <button class="time-chip" data-value="-30m">-30m</button>
+              <button class="time-chip time-chip--selected" data-value="30m">30m</button>
+              <button class="time-chip" data-value="+30m">+30m</button>
+              <button class="time-chip" data-value="+1h">+1h</button>
+            </div>
+            <span class="time-display" id="unplanned-time-display">30m</span>
+          </div>
+          <div class="pane-actions">
+            <button class="btn btn--primary" id="btn-add-unplanned">Add</button>
+            <button class="btn btn--ghost" id="btn-skip-unplanned">Skip</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATE 6: What Challenged You -->
+      <div class="report-pane hidden" id="pane-challenged">
+        <div class="state-card">
+          <div class="pane-instruction">
+            <span class="pane-icon">✦</span>
+            What challenged you today?
+          </div>
+          <div class="chip-group" id="challenge-chips">
+            <button class="chip" data-value="Unclear priorities">Unclear priorities</button>
+            <button class="chip" data-value="Too many interruptions">Too many interruptions</button>
+            <button class="chip" data-value="Waiting on others">Waiting on others</button>
+            <button class="chip" data-value="Scope changed">Scope changed</button>
+            <button class="chip" data-value="Technical blocker">Technical blocker</button>
+            <button class="chip" data-value="Low energy">Low energy</button>
+          </div>
+          <textarea class="challenge-textarea" id="challenge-text" placeholder="Describe what got in the way... (optional)"></textarea>
+          <div class="pane-actions">
+            <button class="btn btn--primary btn--lg" id="btn-submit-report">Submit Report ✓</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Success state -->
+      <div class="report-pane hidden" id="pane-success">
+        <div class="state-card state-card--centered">
+          <div class="success-ring">
+            <svg width="72" height="72" viewBox="0 0 72 72" fill="none">
+              <circle cx="36" cy="36" r="34" stroke="var(--brand)" stroke-width="2"/>
+              <path d="M22 36l10 10 18-18" stroke="var(--brand)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h2 class="state-title">Report submitted</h2>
+          <p class="state-subtitle">Great work today. See you tomorrow.</p>
+          <button class="btn btn--outline" id="btn-view-summary">View summary</button>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
