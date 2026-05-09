@@ -1,0 +1,350 @@
+{
+  "coderabbit": {
+    "rules": [
+      {
+        "name": "Cyclomatic Complexity Check",
+        "enabled": true,
+        "threshold": 15,
+        "error_message": "Function complexity exceeds {threshold}. Current: {actual}",
+        "file_types": ["js", "ts", "jsx", "tsx"]
+      },
+      {
+        "name": "Test Coverage Check",
+        "enabled": true,
+        "threshold": 80,
+        "error_message": "Test coverage below {threshold}%. Current: {actual}%",
+        "file_types": ["js", "ts", "jsx", "tsx"]
+      },
+      {
+        "name": "Code Duplication Check",
+        "enabled": true,
+        "threshold": 5,
+        "error_message": "Code duplication above {threshold}%. Current: {actual}%"
+      },
+      {
+        "name": "Performance Check",
+        "enabled": true,
+        "load_time_ms": 3000,
+        "bundle_size_mb": 5,
+        "error_message": "Performance metrics exceeded"
+      },
+      {
+        "name": "Security Vulnerability Check",
+        "enabled": true,
+        "severity": "high",
+        "error_message": "High severity vulnerability detected"
+      },
+      {
+        "name": "Maintainability Index",
+        "enabled": true,
+        "threshold": 50,
+        "error_message": "Maintainability index below {threshold}. Current: {actual}"
+      },
+      {
+        "name": "Input Validation Check",
+        "enabled": true,
+        "coverage_threshold": 100,
+        "error_message": "Input validation not 100% covered"
+      },
+      {
+        "name": "Error Handling Check",
+        "enabled": true,
+        "coverage_threshold": 100,
+        "error_message": "Error handling not 100% covered"
+      },
+      {
+        "name": "Null Safety Check",
+        "enabled": true,
+        "coverage_threshold": 100,
+        "error_message": "Null/undefined checks not 100% covered"
+      }
+    ],
+    "exclusions": {
+      "paths": [
+        "node_modules/",
+        "dist/",
+        "build/",
+        ".next/",
+        "coverage/",
+        ".git/"
+      ],
+      "files": [
+        "*.min.js",
+        "*.min.css",
+        "*.lock",
+        ".env*"
+      ]
+    },
+    "notifications": {
+      "slack": {
+        "enabled": true,
+        "webhook_url": "${SLACK_WEBHOOK_URL}",
+        "notify_on": ["failure", "threshold_breach", "improvement"]
+      },
+      "github": {
+        "enabled": true,
+        "create_issue": false,
+        "comment_on_pr": true,
+        "require_review": false
+      },
+      "email": {
+        "enabled": false,
+        "recipients": []
+      }
+    }
+  },
+  "kpi_definitions": {
+    "code_quality": {
+      "metrics": [
+        {
+          "id": "cyclomatic_complexity",
+          "name": "Cyclomatic Complexity",
+          "target": 15,
+          "unit": "points",
+          "importance": "critical",
+          "description": "Measures code path complexity"
+        },
+        {
+          "id": "maintainability_index",
+          "name": "Maintainability Index",
+          "target": 50,
+          "unit": "score",
+          "importance": "high",
+          "description": "Overall code maintainability score (0-100)"
+        },
+        {
+          "id": "code_duplication",
+          "name": "Code Duplication",
+          "target": 5,
+          "unit": "percent",
+          "importance": "medium",
+          "description": "Percentage of duplicated code"
+        },
+        {
+          "id": "technical_debt",
+          "name": "Technical Debt Ratio",
+          "target": 5,
+          "unit": "percent",
+          "importance": "high",
+          "description": "Percentage of code that needs refactoring"
+        },
+        {
+          "id": "code_smells",
+          "name": "Code Smells",
+          "target": 0,
+          "unit": "count",
+          "importance": "medium",
+          "description": "Number of code smell issues"
+        }
+      ]
+    },
+    "performance": {
+      "metrics": [
+        {
+          "id": "bundle_size",
+          "name": "Bundle Size",
+          "target": 5,
+          "unit": "MB",
+          "importance": "high",
+          "description": "Total production bundle size"
+        },
+        {
+          "id": "load_time",
+          "name": "Frontend Load Time",
+          "target": 3000,
+          "unit": "milliseconds",
+          "importance": "critical",
+          "description": "Time to load initial page"
+        },
+        {
+          "id": "api_response_time",
+          "name": "API Response Time",
+          "target": 500,
+          "unit": "milliseconds",
+          "importance": "critical",
+          "description": "Average backend API response time"
+        },
+        {
+          "id": "memory_usage",
+          "name": "Memory Usage",
+          "target": 256,
+          "unit": "MB",
+          "importance": "medium",
+          "description": "Peak memory usage"
+        },
+        {
+          "id": "tti",
+          "name": "Time to Interactive (TTI)",
+          "target": 5000,
+          "unit": "milliseconds",
+          "importance": "high",
+          "description": "Time until page is fully interactive"
+        },
+        {
+          "id": "fcp",
+          "name": "First Contentful Paint (FCP)",
+          "target": 1800,
+          "unit": "milliseconds",
+          "importance": "high",
+          "description": "Time to first visual change"
+        }
+      ]
+    },
+    "test_coverage": {
+      "metrics": [
+        {
+          "id": "statement_coverage",
+          "name": "Statement Coverage",
+          "target": 80,
+          "unit": "percent",
+          "importance": "critical",
+          "description": "Percentage of code statements tested"
+        },
+        {
+          "id": "branch_coverage",
+          "name": "Branch Coverage",
+          "target": 75,
+          "unit": "percent",
+          "importance": "high",
+          "description": "Percentage of conditional branches tested"
+        },
+        {
+          "id": "function_coverage",
+          "name": "Function Coverage",
+          "target": 85,
+          "unit": "percent",
+          "importance": "high",
+          "description": "Percentage of functions tested"
+        },
+        {
+          "id": "line_coverage",
+          "name": "Line Coverage",
+          "target": 80,
+          "unit": "percent",
+          "importance": "critical",
+          "description": "Percentage of lines executed"
+        },
+        {
+          "id": "untested_branches",
+          "name": "Untested Branches",
+          "target": 0,
+          "unit": "count",
+          "importance": "high",
+          "description": "Number of code branches not covered by tests"
+        }
+      ]
+    },
+    "business_logic": {
+      "metrics": [
+        {
+          "id": "input_validation",
+          "name": "Input Validation Coverage",
+          "target": 100,
+          "unit": "percent",
+          "importance": "critical",
+          "description": "All inputs properly validated"
+        },
+        {
+          "id": "error_handling",
+          "name": "Error Handling Coverage",
+          "target": 100,
+          "unit": "percent",
+          "importance": "critical",
+          "description": "All errors properly handled"
+        },
+        {
+          "id": "null_safety",
+          "name": "Null Safety Check",
+          "target": 100,
+          "unit": "percent",
+          "importance": "high",
+          "description": "Null/undefined values checked"
+        },
+        {
+          "id": "business_rules",
+          "name": "Business Rule Enforcement",
+          "target": 100,
+          "unit": "percent",
+          "importance": "critical",
+          "description": "All business rules enforced"
+        },
+        {
+          "id": "data_consistency",
+          "name": "Data Consistency Checks",
+          "target": 100,
+          "unit": "percent",
+          "importance": "high",
+          "description": "Data integrity verified"
+        }
+      ]
+    }
+  },
+  "test_relevance_rules": {
+    "new_functions": {
+      "required": true,
+      "min_test_coverage": 80,
+      "reason": "Newly added functions must be tested to ensure they work correctly and don't introduce bugs"
+    },
+    "critical_paths": {
+      "required": true,
+      "min_test_coverage": 100,
+      "reason": "Critical business logic paths must be 100% tested to prevent data loss or incorrect calculations"
+    },
+    "api_endpoints": {
+      "required": true,
+      "min_test_coverage": 90,
+      "reason": "API endpoints must be tested for all HTTP methods and status codes"
+    },
+    "edge_cases": {
+      "required": true,
+      "reason": "Edge cases and boundary conditions must be tested to prevent unexpected behavior"
+    },
+    "error_scenarios": {
+      "required": true,
+      "reason": "Error handling paths must be tested to ensure graceful failure and proper user feedback"
+    },
+    "performance_critical": {
+      "required": true,
+      "reason": "Performance-critical code must be tested to ensure it meets SLA requirements"
+    }
+  },
+  "constraint_definitions": {
+    "must_pass_tests": {
+      "enabled": true,
+      "blocking": true,
+      "message": "All tests must pass before merging"
+    },
+    "must_meet_coverage": {
+      "enabled": true,
+      "threshold": 80,
+      "blocking": false,
+      "message": "Code coverage must be at least 80%"
+    },
+    "must_not_increase_complexity": {
+      "enabled": true,
+      "threshold": 15,
+      "blocking": true,
+      "message": "Do not increase cyclomatic complexity beyond {threshold}"
+    },
+    "must_document_changes": {
+      "enabled": true,
+      "blocking": false,
+      "message": "All changes should have documentation updates"
+    },
+    "must_handle_errors": {
+      "enabled": true,
+      "blocking": true,
+      "message": "All error paths must be handled"
+    },
+    "must_validate_input": {
+      "enabled": true,
+      "blocking": true,
+      "message": "All inputs must be validated"
+    },
+    "must_follow_conventions": {
+      "enabled": true,
+      "blocking": false,
+      "message": "Code must follow established naming and style conventions"
+    }
+  }
+}
