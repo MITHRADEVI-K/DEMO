@@ -1,0 +1,253 @@
+---
+# CodeRabbit Configuration for DEMO Repository
+# This configuration enables automated test case generation and quality tracking
+
+coderabbit:
+  # Enable CodeRabbit features
+  enabled: true
+  
+  # Review settings
+  review:
+    # Enable automatic review on PRs
+    auto_review: true
+    # Review only changed lines
+    review_comment_levels: "changed"
+    # Maximum review comments per file
+    max_comment_per_file: 10
+    # Collapse review comments
+    collapse_review: true
+    # Review tools to enable
+    tools:
+      - ast
+      - tiktoken
+      - soundness
+    # Tone of review
+    tone: "conversational"
+
+  # Language specific configurations
+  language_support:
+    - javascript
+    - typescript
+    - python
+    - java
+    - sql
+    - yaml
+
+  # Test case generation settings
+  test_generation:
+    enabled: true
+    # Auto-generate test cases for new functions
+    auto_generate: true
+    # Test framework
+    framework: "jest"
+    # Coverage threshold
+    coverage_threshold: 80
+    # Generate tests for these patterns
+    patterns:
+      - "*.js"
+      - "*.ts"
+      - "*.jsx"
+      - "*.tsx"
+    # Exclude paths
+    exclude_paths:
+      - "node_modules/**"
+      - "dist/**"
+      - "build/**"
+      - ".next/**"
+
+  # Quality metrics and KPIs
+  quality_metrics:
+    enabled: true
+    
+    # Code Quality Analysis
+    code_quality:
+      enabled: true
+      rules:
+        - complexity: "high"
+        - maintainability: "low"
+        - duplication: "high"
+      thresholds:
+        cyclomatic_complexity: 15
+        cognitive_complexity: 20
+        maintainability_index: 50
+    
+    # Performance Metrics
+    performance:
+      enabled: true
+      track:
+        - bundle_size
+        - load_time
+        - memory_usage
+        - api_response_time
+      thresholds:
+        bundle_size_mb: 5
+        load_time_ms: 3000
+        memory_usage_mb: 256
+        api_response_time_ms: 500
+    
+    # Business Logic Alignment
+    business_logic:
+      enabled: true
+      checks:
+        - consistency: true
+        - validation_rules: true
+        - error_handling: true
+        - data_integrity: true
+      constraints:
+        - must_handle_null_values: true
+        - must_validate_input: true
+        - must_have_error_handling: true
+        - must_log_critical_operations: true
+        - must_follow_naming_conventions: true
+    
+    # Test Case Relevance Analysis
+    test_coverage:
+      enabled: true
+      minimum_coverage: 80
+      track:
+        - statement_coverage
+        - branch_coverage
+        - function_coverage
+        - line_coverage
+      report_missing:
+        - untested_branches
+        - untested_functions
+        - uncovered_edge_cases
+    
+  # Report generation
+  reports:
+    enabled: true
+    format: "markdown"
+    
+    # Generate comprehensive reports
+    sections:
+      - summary
+      - code_quality_metrics
+      - performance_metrics
+      - test_coverage_report
+      - business_logic_alignment
+      - recommendations
+      - kpi_dashboard
+    
+    # KPI definitions
+    kpis:
+      code_quality:
+        - metric: "Cyclomatic Complexity"
+          target: "< 15"
+          importance: "critical"
+        - metric: "Maintainability Index"
+          target: "> 50"
+          importance: "high"
+        - metric: "Code Duplication"
+          target: "< 5%"
+          importance: "medium"
+        - metric: "Technical Debt Ratio"
+          target: "< 5%"
+          importance: "high"
+      
+      performance:
+        - metric: "Bundle Size"
+          target: "< 5 MB"
+          importance: "high"
+        - metric: "Frontend Load Time"
+          target: "< 3 seconds"
+          importance: "critical"
+        - metric: "API Response Time"
+          target: "< 500 ms"
+          importance: "critical"
+        - metric: "Memory Usage"
+          target: "< 256 MB"
+          importance: "medium"
+        - metric: "Time to Interactive (TTI)"
+          target: "< 5 seconds"
+          importance: "high"
+      
+      test_coverage:
+        - metric: "Statement Coverage"
+          target: "> 80%"
+          importance: "critical"
+        - metric: "Branch Coverage"
+          target: "> 75%"
+          importance: "high"
+        - metric: "Function Coverage"
+          target: "> 85%"
+          importance: "high"
+        - metric: "Line Coverage"
+          target: "> 80%"
+          importance: "critical"
+      
+      business_logic:
+        - metric: "Input Validation Coverage"
+          target: "100%"
+          importance: "critical"
+        - metric: "Error Handling Coverage"
+          target: "100%"
+          importance: "critical"
+        - metric: "Null Safety"
+          target: "100%"
+          importance: "high"
+        - metric: "Business Rule Enforcement"
+          target: "100%"
+          importance: "critical"
+
+  # Workflow triggers
+  triggers:
+    on_pull_request: true
+    on_push: true
+    on_branch:
+      - "dev"
+      - "test"
+      - "main"
+    exclude_branches:
+      - "release/**"
+
+  # Integration settings
+  integrations:
+    slack:
+      enabled: true
+      notify_on: 
+        - test_failure
+        - quality_threshold_breach
+        - performance_degradation
+    github:
+      enabled: true
+      comment_on_pr: true
+      check_run: true
+      status_check: true
+
+  # Constraints and Rules
+  constraints:
+    must_pass_tests: true
+    must_meet_coverage: true
+    must_improve_quality: false
+    must_not_increase_complexity: true
+    must_document_changes: true
+    require_peer_review: true
+    
+    # Blocking rules
+    blocking:
+      - rule: "code_quality"
+        threshold: 50
+        action: "block"
+      - rule: "test_coverage"
+        threshold: 80
+        action: "warn"
+      - rule: "performance"
+        threshold: 3000
+        action: "warn"
+
+  # Auto-fix configuration
+  autofix:
+    enabled: true
+    auto_commit: false
+    suggestions:
+      - simplify_complexity
+      - fix_duplication
+      - improve_performance
+      - add_missing_tests
+
+  # Logging and debugging
+  logging:
+    level: "info"
+    detailed_report: true
+    track_metrics: true
