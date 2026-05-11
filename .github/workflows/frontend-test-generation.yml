@@ -1,0 +1,46 @@
+name: Frontend Test Generation Simulation
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  simulate-test-gen:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout dev branch
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+
+      - name: Setup Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create or update test branch
+        run: |
+          # Check if test branch exists
+          if git ls-remote --heads origin test | grep -q test; then
+            git checkout test
+            git merge dev --no-edit --allow-unrelated-histories
+          else
+            git checkout -b test
+          fi
+
+      - name: Push to test branch
+        run: |
+          git push origin test --force
+
+      - name: Create PR from test to main
+        run: |
+          # Check if PR already exists
+          existing_pr=$(gh pr list --head test --base main --json number --jq '.[0].number' || echo "")
+          if [ -z "$existing_pr" ]; then
+            gh pr create --base main --head test --title "Automated Frontend Test Generation" --body "CodeRabbit AI will detect changes from dev branch and generate frontend test cases. The process will iterate until tests pass with required coverage, potentially requesting human input for business logic clarification."
+          else
+            echo "PR #$existing_pr already exists, CodeRabbit will update it."
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
