@@ -27,27 +27,22 @@ coderabbit:
   # Language specific configurations
   language_support:
     - javascript
-    - typescript
-    - python
-    - java
-    - sql
-    - yaml
+    - html
+    - css
 
-  # Test case generation settings
+  # Test case generation settings (frontend only)
   test_generation:
     enabled: true
     # Auto-generate test cases for new functions
     auto_generate: true
-    # Test framework
-    framework: "jest"
-    # Coverage threshold
+    # Test framework (manual/suggested by CodeRabbit)
+    framework: "manual"
+    # Coverage threshold (suggested)
     coverage_threshold: 80
     # Generate tests for these patterns
     patterns:
       - "*.js"
-      - "*.ts"
-      - "*.jsx"
-      - "*.tsx"
+      - "*.html"
     # Exclude paths
     exclude_paths:
       - "node_modules/**"
@@ -71,47 +66,43 @@ coderabbit:
         cognitive_complexity: 20
         maintainability_index: 50
     
-    # Performance Metrics
+    # Performance Metrics (frontend)
     performance:
       enabled: true
       track:
-        - bundle_size
         - load_time
         - memory_usage
-        - api_response_time
+        - dom_interactions
       thresholds:
-        bundle_size_mb: 5
         load_time_ms: 3000
         memory_usage_mb: 256
-        api_response_time_ms: 500
+        dom_interactions: 1000
     
-    # Business Logic Alignment
+    # Business Logic Alignment (UI flow)
     business_logic:
       enabled: true
       checks:
-        - consistency: true
-        - validation_rules: true
-        - error_handling: true
-        - data_integrity: true
+        - ui_consistency: true
+        - user_flow: true
+        - accessibility: true
+        - responsiveness: true
       constraints:
-        - must_handle_null_values: true
-        - must_validate_input: true
-        - must_have_error_handling: true
-        - must_log_critical_operations: true
-        - must_follow_naming_conventions: true
+        - must_handle_user_input: true
+        - must_provide_feedback: true
+        - must_be_accessible: true
+        - must_follow_ui_patterns: true
     
-    # Test Case Relevance Analysis
+    # Test Case Relevance Analysis (frontend)
     test_coverage:
       enabled: true
       minimum_coverage: 80
       track:
-        - statement_coverage
-        - branch_coverage
-        - function_coverage
-        - line_coverage
+        - ui_interactions
+        - user_flows
+        - edge_cases
       report_missing:
-        - untested_branches
-        - untested_functions
+        - untested_ui_states
+        - untested_user_paths
         - uncovered_edge_cases
     
   # Report generation
@@ -122,16 +113,16 @@ coderabbit:
     # Generate comprehensive reports
     sections:
       - summary
-      - code_quality_metrics
-      - performance_metrics
-      - test_coverage_report
-      - business_logic_alignment
+      - frontend_quality_metrics
+      - ui_performance_metrics
+      - user_flow_coverage
+      - accessibility_check
       - recommendations
-      - kpi_dashboard
+      - frontend_kpi_dashboard
     
-    # KPI definitions
+    # KPI definitions (frontend focused)
     kpis:
-      code_quality:
+      frontend_quality:
         - metric: "Cyclomatic Complexity"
           target: "< 15"
           importance: "critical"
@@ -141,52 +132,26 @@ coderabbit:
         - metric: "Code Duplication"
           target: "< 5%"
           importance: "medium"
-        - metric: "Technical Debt Ratio"
-          target: "< 5%"
-          importance: "high"
       
-      performance:
-        - metric: "Bundle Size"
-          target: "< 5 MB"
-          importance: "high"
-        - metric: "Frontend Load Time"
+      frontend_performance:
+        - metric: "Page Load Time"
           target: "< 3 seconds"
           importance: "critical"
-        - metric: "API Response Time"
-          target: "< 500 ms"
-          importance: "critical"
+        - metric: "DOM Interactions"
+          target: "< 1000"
+          importance: "high"
         - metric: "Memory Usage"
           target: "< 256 MB"
           importance: "medium"
-        - metric: "Time to Interactive (TTI)"
-          target: "< 5 seconds"
-          importance: "high"
       
-      test_coverage:
-        - metric: "Statement Coverage"
+      ui_coverage:
+        - metric: "UI State Coverage"
           target: "> 80%"
           importance: "critical"
-        - metric: "Branch Coverage"
-          target: "> 75%"
-          importance: "high"
-        - metric: "Function Coverage"
+        - metric: "User Flow Coverage"
           target: "> 85%"
           importance: "high"
-        - metric: "Line Coverage"
-          target: "> 80%"
-          importance: "critical"
-      
-      business_logic:
-        - metric: "Input Validation Coverage"
-          target: "100%"
-          importance: "critical"
-        - metric: "Error Handling Coverage"
-          target: "100%"
-          importance: "critical"
-        - metric: "Null Safety"
-          target: "100%"
-          importance: "high"
-        - metric: "Business Rule Enforcement"
+        - metric: "Accessibility Compliance"
           target: "100%"
           importance: "critical"
 
@@ -195,59 +160,57 @@ coderabbit:
     on_pull_request: true
     on_push: true
     on_branch:
-      - "dev"
-      - "test"
-      - "main"
+      - "**"
     exclude_branches:
       - "release/**"
 
-  # Integration settings
+  # Integration settings (frontend focus)
   integrations:
     slack:
       enabled: true
       notify_on: 
-        - test_failure
-        - quality_threshold_breach
+        - ui_issue_detected
         - performance_degradation
+        - accessibility_violation
     github:
       enabled: true
       comment_on_pr: true
       check_run: true
       status_check: true
 
-  # Constraints and Rules
+  # Constraints and Rules (frontend)
   constraints:
-    must_pass_tests: true
-    must_meet_coverage: true
-    must_improve_quality: false
+    must_pass_ui_tests: true
+    must_meet_accessibility: true
+    must_improve_performance: false
     must_not_increase_complexity: true
-    must_document_changes: true
-    require_peer_review: true
+    must_document_ui_changes: true
+    require_ui_review: true
     
     # Blocking rules
     blocking:
+      - rule: "accessibility"
+        threshold: 95
+        action: "block"
+      - rule: "ui_performance"
+        threshold: 3000
+        action: "warn"
       - rule: "code_quality"
         threshold: 50
         action: "block"
-      - rule: "test_coverage"
-        threshold: 80
-        action: "warn"
-      - rule: "performance"
-        threshold: 3000
-        action: "warn"
 
-  # Auto-fix configuration
+  # Auto-fix configuration (frontend)
   autofix:
     enabled: true
     auto_commit: false
     suggestions:
-      - simplify_complexity
-      - fix_duplication
+      - simplify_ui_logic
+      - fix_accessibility_issues
       - improve_performance
-      - add_missing_tests
+      - add_ui_tests
 
   # Logging and debugging
   logging:
     level: "info"
     detailed_report: true
-    track_metrics: true
+    track_frontend_metrics: true

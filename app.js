@@ -119,11 +119,13 @@ function switchModule(target) {
     hide(moduleReport);
     navPlan.classList.add('active');
     navReport.classList.remove('active');
+    setStateIndicator('Daily Plan');
   } else {
     hide(modulePlan);
     show(moduleReport);
     navReport.classList.add('active');
     navPlan.classList.remove('active');
+    setStateIndicator('Daily Report');
   }
 }
 
@@ -145,6 +147,7 @@ navReport.addEventListener('click', () => {
 
 // Set initial active state
 navPlan.classList.add('active');
+setStateIndicator('Daily Plan');
 
 // ─────────────────────────────────────────────
 // Greeting
@@ -155,6 +158,73 @@ navPlan.classList.add('active');
   const part = hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening';
   el('greeting-text').textContent = `Good ${part}, mithradevi-b55d`;
 })();
+
+function setStateIndicator(text) {
+  const indicator = el('state-indicator');
+  if (indicator) indicator.textContent = text;
+}
+
+function calculateProductivity(tasksCompleted, totalTasks) {
+  if (totalTasks === 0) return 0;
+  const value = Math.round((tasksCompleted / totalTasks) * 100);
+  return Math.min(100, Math.max(0, value));
+}
+
+function validatePlan() {
+  if (state.tasks.length === 0) return false;
+  return state.tasks.every((task) => task.label.trim().length > 0);
+}
+
+function createPlan(label, estimatedMinutes = 60, isPriority = false) {
+  if (!label || typeof label !== 'string') {
+    return false;
+  }
+
+  const task = {
+    id: uid(),
+    label: label.trim(),
+    estimatedTime: fmtTime(estimatedMinutes),
+    isPriority,
+  };
+
+  state.tasks.push(task);
+  renderPlanTaskList();
+  return true;
+}
+
+function updatePlan(taskId, updates) {
+  const task = state.tasks.find((t) => t.id === taskId);
+  if (!task) return false;
+  if (typeof updates.label === 'string') task.label = updates.label.trim();
+  if (typeof updates.estimatedTime === 'string') task.estimatedTime = updates.estimatedTime;
+  if (typeof updates.isPriority === 'boolean') task.isPriority = updates.isPriority;
+  renderPlanTaskList();
+  return true;
+}
+
+function submitReport() {
+  if (!validatePlan()) {
+    alert('Please add a plan before submitting.');
+    return;
+  }
+
+  state.deliverables = state.tasks.map((task) => ({
+    id: task.id,
+    label: task.label,
+    status: null,
+    actualTime: task.estimatedTime,
+  }));
+
+  switchModule('report');
+  activateReportPane('pane-your-work', 33);
+  setStateIndicator('Daily Report');
+}
+
+function simulateSave(payload) {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve({ success: true, payload }), 500);
+  });
+}
 
 // ─────────────────────────────────────────────
 // ① STATE: plan:empty
