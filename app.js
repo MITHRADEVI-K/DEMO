@@ -499,26 +499,6 @@ function escHtml(str) {
 }
 
 // ─────────────────────────────────────────────
-// Simple Math Functions (for testing)
-// ─────────────────────────────────────────────
-
-/** Add two numbers */
-function add(a, b) {
-  if (typeof a !== 'number' || typeof b !== 'number') {
-    throw new Error('Both arguments must be numbers');
-  }
-  return a + b;
-}
-
-/** Multiply two numbers */
-function multiply(a, b) {
-  if (typeof a !== 'number' || typeof b !== 'number') {
-    throw new Error('Both arguments must be numbers');
-  }
-  return a * b;
-}
-
-// ─────────────────────────────────────────────
 // Bootstrap — start in plan:empty
 // ─────────────────────────────────────────────
 
