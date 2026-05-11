@@ -103,6 +103,7 @@ body {
   transition: background .15s;
 }
 .nav-item:hover { background: var(--muted-bg); }
+.nav-item.active { background: var(--brand-light); color: var(--brand); font-weight: 600; }
 .nav-icon { font-size: 14px; width: 18px; text-align: center; flex-shrink: 0; }
 .nav-chevron { margin-left: auto; font-size: 9px; color: var(--muted-fg); }
 
@@ -194,7 +195,8 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  overflow: hidden;
+  overflow: auto;
+  padding-bottom: 24px;
 }
 
 .topbar {

@@ -6,57 +6,32 @@
         "enabled": true,
         "threshold": 15,
         "error_message": "Function complexity exceeds {threshold}. Current: {actual}",
-        "file_types": ["js", "ts", "jsx", "tsx"]
+        "file_types": ["js", "html"]
       },
       {
-        "name": "Test Coverage Check",
-        "enabled": true,
-        "threshold": 80,
-        "error_message": "Test coverage below {threshold}%. Current: {actual}%",
-        "file_types": ["js", "ts", "jsx", "tsx"]
-      },
-      {
-        "name": "Code Duplication Check",
-        "enabled": true,
-        "threshold": 5,
-        "error_message": "Code duplication above {threshold}%. Current: {actual}%"
-      },
-      {
-        "name": "Performance Check",
+        "name": "UI Performance Check",
         "enabled": true,
         "load_time_ms": 3000,
-        "bundle_size_mb": 5,
-        "error_message": "Performance metrics exceeded"
+        "error_message": "UI load time exceeds {threshold}ms",
+        "file_types": ["js", "html", "css"]
       },
       {
-        "name": "Security Vulnerability Check",
+        "name": "Accessibility Check",
         "enabled": true,
-        "severity": "high",
-        "error_message": "High severity vulnerability detected"
+        "threshold": 95,
+        "error_message": "Accessibility score below {threshold}%. Current: {actual}%"
       },
       {
-        "name": "Maintainability Index",
+        "name": "UI State Coverage Check",
         "enabled": true,
-        "threshold": 50,
-        "error_message": "Maintainability index below {threshold}. Current: {actual}"
+        "threshold": 80,
+        "error_message": "UI state coverage below {threshold}%. Current: {actual}%"
       },
       {
-        "name": "Input Validation Check",
+        "name": "User Flow Check",
         "enabled": true,
-        "coverage_threshold": 100,
-        "error_message": "Input validation not 100% covered"
-      },
-      {
-        "name": "Error Handling Check",
-        "enabled": true,
-        "coverage_threshold": 100,
-        "error_message": "Error handling not 100% covered"
-      },
-      {
-        "name": "Null Safety Check",
-        "enabled": true,
-        "coverage_threshold": 100,
-        "error_message": "Null/undefined checks not 100% covered"
+        "threshold": 85,
+        "error_message": "User flow coverage below {threshold}%. Current: {actual}%"
       }
     ],
     "exclusions": {
@@ -79,7 +54,7 @@
       "slack": {
         "enabled": true,
         "webhook_url": "${SLACK_WEBHOOK_URL}",
-        "notify_on": ["failure", "threshold_breach", "improvement"]
+        "notify_on": ["ui_issue", "performance_degradation", "accessibility_violation"]
       },
       "github": {
         "enabled": true,
@@ -94,15 +69,15 @@
     }
   },
   "kpi_definitions": {
-    "code_quality": {
+    "frontend_quality": {
       "metrics": [
         {
           "id": "cyclomatic_complexity",
           "name": "Cyclomatic Complexity",
           "target": 15,
-          "unit": "points",
+          "unit": "score",
           "importance": "critical",
-          "description": "Measures code path complexity"
+          "description": "Measures code path complexity in UI logic"
         },
         {
           "id": "maintainability_index",
@@ -118,51 +93,27 @@
           "target": 5,
           "unit": "percent",
           "importance": "medium",
-          "description": "Percentage of duplicated code"
-        },
-        {
-          "id": "technical_debt",
-          "name": "Technical Debt Ratio",
-          "target": 5,
-          "unit": "percent",
-          "importance": "high",
-          "description": "Percentage of code that needs refactoring"
-        },
-        {
-          "id": "code_smells",
-          "name": "Code Smells",
-          "target": 0,
-          "unit": "count",
-          "importance": "medium",
-          "description": "Number of code smell issues"
+          "description": "Percentage of duplicated UI code"
         }
       ]
     },
-    "performance": {
+    "frontend_performance": {
       "metrics": [
         {
-          "id": "bundle_size",
-          "name": "Bundle Size",
-          "target": 5,
-          "unit": "MB",
-          "importance": "high",
-          "description": "Total production bundle size"
-        },
-        {
           "id": "load_time",
-          "name": "Frontend Load Time",
+          "name": "Page Load Time",
           "target": 3000,
           "unit": "milliseconds",
           "importance": "critical",
           "description": "Time to load initial page"
         },
         {
-          "id": "api_response_time",
-          "name": "API Response Time",
-          "target": 500,
-          "unit": "milliseconds",
-          "importance": "critical",
-          "description": "Average backend API response time"
+          "id": "dom_interactions",
+          "name": "DOM Interactions",
+          "target": 1000,
+          "unit": "count",
+          "importance": "high",
+          "description": "Number of DOM manipulations per session"
         },
         {
           "id": "memory_usage",
@@ -171,180 +122,90 @@
           "unit": "MB",
           "importance": "medium",
           "description": "Peak memory usage"
-        },
-        {
-          "id": "tti",
-          "name": "Time to Interactive (TTI)",
-          "target": 5000,
-          "unit": "milliseconds",
-          "importance": "high",
-          "description": "Time until page is fully interactive"
-        },
-        {
-          "id": "fcp",
-          "name": "First Contentful Paint (FCP)",
-          "target": 1800,
-          "unit": "milliseconds",
-          "importance": "high",
-          "description": "Time to first visual change"
         }
       ]
     },
-    "test_coverage": {
+    "ui_coverage": {
       "metrics": [
         {
-          "id": "statement_coverage",
-          "name": "Statement Coverage",
+          "id": "ui_state_coverage",
+          "name": "UI State Coverage",
           "target": 80,
           "unit": "percent",
           "importance": "critical",
-          "description": "Percentage of code statements tested"
+          "description": "Percentage of UI states tested"
         },
         {
-          "id": "branch_coverage",
-          "name": "Branch Coverage",
-          "target": 75,
-          "unit": "percent",
-          "importance": "high",
-          "description": "Percentage of conditional branches tested"
-        },
-        {
-          "id": "function_coverage",
-          "name": "Function Coverage",
+          "id": "user_flow_coverage",
+          "name": "User Flow Coverage",
           "target": 85,
           "unit": "percent",
           "importance": "high",
-          "description": "Percentage of functions tested"
+          "description": "Percentage of user flows tested"
         },
         {
-          "id": "line_coverage",
-          "name": "Line Coverage",
-          "target": 80,
-          "unit": "percent",
-          "importance": "critical",
-          "description": "Percentage of lines executed"
-        },
-        {
-          "id": "untested_branches",
-          "name": "Untested Branches",
-          "target": 0,
-          "unit": "count",
-          "importance": "high",
-          "description": "Number of code branches not covered by tests"
-        }
-      ]
-    },
-    "business_logic": {
-      "metrics": [
-        {
-          "id": "input_validation",
-          "name": "Input Validation Coverage",
+          "id": "accessibility_compliance",
+          "name": "Accessibility Compliance",
           "target": 100,
           "unit": "percent",
           "importance": "critical",
-          "description": "All inputs properly validated"
-        },
-        {
-          "id": "error_handling",
-          "name": "Error Handling Coverage",
-          "target": 100,
-          "unit": "percent",
-          "importance": "critical",
-          "description": "All errors properly handled"
-        },
-        {
-          "id": "null_safety",
-          "name": "Null Safety Check",
-          "target": 100,
-          "unit": "percent",
-          "importance": "high",
-          "description": "Null/undefined values checked"
-        },
-        {
-          "id": "business_rules",
-          "name": "Business Rule Enforcement",
-          "target": 100,
-          "unit": "percent",
-          "importance": "critical",
-          "description": "All business rules enforced"
-        },
-        {
-          "id": "data_consistency",
-          "name": "Data Consistency Checks",
-          "target": 100,
-          "unit": "percent",
-          "importance": "high",
-          "description": "Data integrity verified"
+          "description": "WCAG compliance percentage"
         }
       ]
     }
   },
   "test_relevance_rules": {
-    "new_functions": {
+    "ui_components": {
       "required": true,
       "min_test_coverage": 80,
-      "reason": "Newly added functions must be tested to ensure they work correctly and don't introduce bugs"
+      "reason": "UI components must be tested to ensure proper rendering and interaction"
     },
-    "critical_paths": {
+    "user_flows": {
+      "required": true,
+      "min_test_coverage": 85,
+      "reason": "Critical user flows must be 100% tested to prevent UX regressions"
+    },
+    "accessibility": {
       "required": true,
       "min_test_coverage": 100,
-      "reason": "Critical business logic paths must be 100% tested to prevent data loss or incorrect calculations"
-    },
-    "api_endpoints": {
-      "required": true,
-      "min_test_coverage": 90,
-      "reason": "API endpoints must be tested for all HTTP methods and status codes"
+      "reason": "Accessibility features must be tested for compliance"
     },
     "edge_cases": {
       "required": true,
-      "reason": "Edge cases and boundary conditions must be tested to prevent unexpected behavior"
+      "reason": "Edge cases and boundary conditions must be tested for UI robustness"
     },
-    "error_scenarios": {
+    "error_states": {
       "required": true,
-      "reason": "Error handling paths must be tested to ensure graceful failure and proper user feedback"
-    },
-    "performance_critical": {
-      "required": true,
-      "reason": "Performance-critical code must be tested to ensure it meets SLA requirements"
+      "reason": "Error handling in UI must be tested to ensure graceful failure"
     }
   },
   "constraint_definitions": {
-    "must_pass_tests": {
+    "must_pass_ui_tests": {
       "enabled": true,
       "blocking": true,
-      "message": "All tests must pass before merging"
+      "message": "All UI tests must pass before merging"
     },
-    "must_meet_coverage": {
+    "must_meet_accessibility": {
       "enabled": true,
-      "threshold": 80,
-      "blocking": false,
-      "message": "Code coverage must be at least 80%"
+      "threshold": 95,
+      "blocking": true,
+      "message": "Accessibility score must be above 95%"
     },
     "must_not_increase_complexity": {
       "enabled": true,
       "threshold": 15,
       "blocking": true,
-      "message": "Do not increase cyclomatic complexity beyond {threshold}"
+      "message": "Do not increase cyclomatic complexity beyond 15"
     },
-    "must_document_changes": {
+    "must_document_ui_changes": {
       "enabled": true,
       "blocking": false,
-      "message": "All changes should have documentation updates"
+      "message": "All UI changes should have documentation updates"
     },
-    "must_handle_errors": {
+    "must_handle_user_input": {
       "enabled": true,
       "blocking": true,
-      "message": "All error paths must be handled"
-    },
-    "must_validate_input": {
-      "enabled": true,
-      "blocking": true,
-      "message": "All inputs must be validated"
-    },
-    "must_follow_conventions": {
-      "enabled": true,
-      "blocking": false,
-      "message": "Code must follow established naming and style conventions"
+      "message": "All user inputs must be properly handled"
     }
   }
 }

@@ -1,0 +1,25 @@
+{
+  "name": "daily-cadence-frontend",
+  "version": "1.0.0",
+  "description": "Daily Cadence - Frontend UI prototype with Jest testing",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "serve": "python3 -m http.server 8000",
+    "start": "npm run serve"
+  },
+  "keywords": [
+    "frontend",
+    "daily-cadence",
+    "testing"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/preset-env": "^7.29.5",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  }
+}
